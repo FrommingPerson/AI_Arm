@@ -2,6 +2,9 @@
 
 # Rotrics DexArm Dashboard
 
+In order to install all required dependencies use pip install dash plotly dash-bootstrap-components pillow cairosvg numpy pyserial
+
+
 ![demo](/media/demo.gif?raw=true)
 
 A series of tools to work with [Rotrics DexArm]("https://www.rotrics.com/") robotic arms.

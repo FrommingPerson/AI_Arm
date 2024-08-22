@@ -3,6 +3,8 @@
 # Rotrics DexArm Dashboard
 
 In order to install all required dependencies use pip install dash plotly dash-bootstrap-components pillow cairosvg numpy pyserial
+pip install openai
+
 
 
 ![demo](/media/demo.gif?raw=true)

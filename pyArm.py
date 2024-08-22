@@ -89,7 +89,7 @@ z_clear_height = -57
 
 pressure_factor = 5
 
-default_JSON_file_Path = "./Rotrics_arm/data/path_data.json"
+default_JSON_file_Path = "./data/path_data.json"
 
 dp = Drawing_processor(base_z = z_val, safe_z_val = z_clear_height, slider = False)
 

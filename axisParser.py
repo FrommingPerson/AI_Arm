@@ -55,7 +55,7 @@ def generate_drawing_json(phrase, letter_coordinates, spacing=7, space_adjustmen
     drawing_json_str = json.dumps(drawing_json, indent=4)
     
     # Save to a file
-    with open("./Rotrics_arm/data/path_data.json", 'w') as f:
+    with open("./data/path_data.json", 'w') as f:
         f.write(drawing_json_str)
 
     print("Drawing JSON file has been created successfully.")

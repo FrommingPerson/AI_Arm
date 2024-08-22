@@ -4,6 +4,7 @@
 
 In order to install all required dependencies use pip install dash plotly dash-bootstrap-components pillow cairosvg numpy pyserial
 pip install openai
+pip install "dash-bootstrap-components<1"
 
 
 

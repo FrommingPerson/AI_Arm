@@ -1,5 +1,5 @@
 import json
-
+#
 def generate_drawing_json(phrase, letter_coordinates, spacing=7, space_adjustment=-6, line_height=-9):
     # Initial starting positions
     x_start = 0

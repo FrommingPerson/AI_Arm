@@ -171,4 +171,4 @@ It doesn't work as intended on the Python API. It works in Rotrics Studio, but t
 * [ ] ~~Inegrating the [rotary module](https://www.rotrics.com/products/rotary-kit) Canceled due to technical issues~~
 
 --- 
-By Ardavn Bidgoli, Summer 2021
+By Nikiforove Maxime, Summer 2024

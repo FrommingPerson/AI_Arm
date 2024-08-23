@@ -60,6 +60,7 @@ parser.add_argument('-mode',
 
 args = parser.parse_args()
 mode_selection = args.mode
+isTrue = False  # Initialize the boolean variable
 
 ##########################################################################################
 ###### Global Variables
@@ -72,12 +73,14 @@ port = mac_port
 
 arm = None
 
+path_data = None
+
 json_drawing_data = None
 
 #######################
 ## Default variables
 #######################
-z_val = -63
+z_val = -58
 z_val_adjusted = z_val + 0
 
 scale = 25
@@ -85,7 +88,7 @@ x_offset = 0
 y_offset = 250
 x_default = 0
 y_default = 300
-z_clear_height = -57
+z_clear_height = -52
 
 pressure_factor = 5
 
@@ -192,7 +195,7 @@ drawing_tabs = dbc.Card(
                                     dbc.Tab([
                                                 html.Br(),
                                                 html.H3("Центр рисования"),
-                                                html.P("Рисуйте используя трекпад или мышь вашего устройства на холсте ниже"),   
+                                                html.P("Рисуйте используя трекпад или мышь вашего устройства на холсте ниже"),
                                                 dcc.Graph(
                                                         id="graph_pic", 
                                                         figure=fig, config=config,
@@ -200,6 +203,20 @@ drawing_tabs = dbc.Card(
                                                                 'height':"800px",
                                                                 'visibility':'visible'},
                                                         ),
+                                                html.Br(),
+                                                dbc.Checklist(
+                                                        options=[
+                                                            {"label": "Вписать текст", "value": 1},
+                                                        ],
+                                                        value=[],
+                                                        id="slider_ai",
+                                                        inline= True,
+                                                        switch=True,
+                                                    ),   
+                                                html.Br(),
+                                                html.Div(id='text_input_container', children=[
+                                                    dbc.Input(id='text_input', placeholder="Введите текст...", type="text")
+                                                ], style={'display': 'none'}),  # Initially hidden
                                                 html.Br(),
                                                 dbc.Button(id='draw_now_canvas', 
                                                             children= "Рисовать", 
@@ -309,6 +326,7 @@ controls_card = dbc.Card([
                                                             children=[
                                                                     dbc.DropdownMenuItem(id='COM1', children="COM1"),
                                                                     dbc.DropdownMenuItem(id='COM3', children="COM3"),
+                                                                    dbc.DropdownMenuItem(id='COM5', children="COM5"),
                                                                     dbc.DropdownMenuItem(id='MAC', children="MAC"),
                                                                     ],
                                                             color="dark", 
@@ -390,6 +408,30 @@ app.layout = dbc.Container([
 ###### Callbacks
 ##########################################################################################
 @app.callback(
+    Output('text_input_container', 'style'),
+    [Input('slider_ai', 'value')]
+)
+def toggle_text_input(value):
+    global isTrue
+    if value:  # If the checklist is checked
+        isTrue = True
+        return {'display': 'block'}  # Show the input field
+    else:
+        isTrue = False
+        return {'display': 'none'}  # Hide the input field
+
+
+# @app.callback(
+#     Output('lowercase_store', 'data'),
+#     Input('text_input', 'value')
+# )
+# def convert_to_lowercase(input_text):
+#     if input_text:
+#         lowercase_text = input_text.lower()
+#         return lowercase_text
+#     return ''  # Return empty string if input is empty
+
+@app.callback(
                 Output('stop_status', 'children'),
                 Input('stop', 'n_clicks'),
                 prevent_initial_call=True)
@@ -405,9 +447,12 @@ def clear_drawing_canvas(value):
     """
     Clears the drawing canvas
     """
-    global default_JSON_file_Path
+    global default_JSON_file_Path, path_data
+    print(f"path_data is {path_data}")
     dp.reset_JSON_file(json_path = default_JSON_file_Path)
     tmp_fig = init_canvas()
+    print(f"path_data is {path_data}")
+    path_data = None
     return tmp_fig
 
 
@@ -452,9 +497,10 @@ def json_file_upload(contents, file_names, dates):
     Output("port_status", "children"),
     [Input("COM1", "n_clicks"),
     Input("COM3", "n_clicks"),
+    Input("COM5", "n_clicks"),
     Input("MAC", "n_clicks")]
 )
-def set_com_port(c1, c3, c5):
+def set_com_port(c1, c3, c5, mac):
     """
     Sets the active port to connect to the robot
     For Ubuntu (Raspberry Pi, find the exact name of port i.e.: '/dev/ttyACM0')
@@ -666,14 +712,31 @@ def adjust_marker(value):
 @app.callback(
     Output('draw_now_status', 'children'),
     [Input('draw_now_canvas', 'n_clicks'),
-    Input('draw_now_JSON', 'n_clicks')],
-    prevent_initial_call=True)
-def draw_now(value_graph, value_JSON):
+     Input('draw_now_JSON', 'n_clicks')],
+    [State('text_input', 'value')],
+    prevent_initial_call=True
+)
+def draw_now(value_graph, value_JSON, text_input_value):
     """
     Reads the saved JSON file in the default path and draws it
     """
+    # global isTrue
+    # ctx = dash.callback_context
+    global path_data
+    lowercased_text = text_input_value.lower() if text_input_value else ""
     print("S'IL VOUS PLAÎTE !!!!")
-    generateText()
+
+    # if draw != "Информация сохранена в json файл":
+    if path_data == None:
+        print(lowercased_text)
+
+        if isTrue:
+            generate_drawing_json(add_new_line(lowercased_text), letter_coordinates)
+            print("HumanWritten text")
+
+        else:
+            generateText()
+            
 
     global arm, dp
     global default_JSON_file_Path
@@ -682,6 +745,19 @@ def draw_now(value_graph, value_JSON):
     dp.draw(arm, polyLines)
 
     return ("Drawing copmleted")
+
+def add_new_line(lowercasedText):
+    spaceCounter = 0
+    newMessage = []
+    for char in lowercasedText:
+        if char == " ":
+            spaceCounter += 1
+            if spaceCounter % 2 == 0:
+                newMessage.append("/")
+                continue
+        newMessage.append(char)
+
+    return ''.join(newMessage)                   
 
 def quick_draw_graph(json_path= None):
     """
@@ -724,6 +800,7 @@ def quick_draw_graph(json_path= None):
 )
 def draw(relayout_data):
     global arm
+    global path_data
     global z_val, z_val_adjusted, x_offset, y_offset
     global default_JSON_file_Path
     
@@ -767,7 +844,6 @@ def draw(relayout_data):
             
             json_data = json.dumps(drawing_dic, indent = 4)
             dp.write_dic_to_json_file(json_data, default_JSON_file_Path)
-
 
         return "Информация сохранена в json файл"
     

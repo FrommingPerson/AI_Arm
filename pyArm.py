@@ -37,6 +37,7 @@ import re
 import base64
 import io
 import os
+import platform
 import json
 import argparse
 
@@ -65,11 +66,14 @@ isTrue = False  # Initialize the boolean variable
 ##########################################################################################
 ###### Global Variables
 ##########################################################################################
-port = "COM3"
+port = "COM5"
+
+print(platform.uname().system)
 
 mac_port = "/dev/tty.usbmodem3068365D30311"
 
-port = mac_port
+if platform.uname().system == "Darwin":
+    port = mac_port    
 
 arm = None
 

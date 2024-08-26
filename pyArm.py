@@ -24,7 +24,7 @@ from dash_bootstrap_components._components.CardBody import CardBody
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import plotly.express as px
-import cairosvg
+# import cairosvg
 from io import BytesIO
 
 

@@ -144,7 +144,7 @@ class Dexarm:
         cmd = cmd + "\r\n"
         self._send_cmd(cmd, wait=wait)
 
-    def fast_move_to(self, x=None, y=None, z=None, feedrate=9000, wait=True):
+    def fast_move_to(self, x=None, y=None, z=None, feedrate=18000, wait=True):
         """
         Fast move to a cartesian position, i.e., in mode G0
 
@@ -282,19 +282,19 @@ class Dexarm:
         self._send_cmd("M5\r")
 
     """Conveyor Belt"""
-    def conveyor_belt_forward(self, speed=0):
+    def conveyor_belt_forward(self, speed=3):
         """
         Move the belt forward
         """
         self._send_cmd("M2012 F" + str(speed) + 'D0\r')
 
-    def conveyor_belt_backward(self, speed=0):
+    def conveyor_belt_backward(self, speed=3):
         """
         Move the belt backward
         """
         self._send_cmd("M2012 F" + str(speed) + 'D1\r')
 
-    def conveyor_belt_stop(self, speed=0):
+    def conveyor_belt_stop(self, speed=3):
         """
         Stop the belt
         """

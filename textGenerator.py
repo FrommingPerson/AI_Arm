@@ -4,20 +4,38 @@ import json
 import sys
 import keyboard
 
+
 from axisParser import generate_drawing_json as generate_drawing_json
 from axisParser import letter_coordinates as letter_coordinates
 
 client = OpenAI(api_key = "sk-svcacct-hX8lgGr6VTtt9puTz8A4198rGAA0pxfLkmcDsZPnCZM-T3BlbkFJUorG3ETpsFf2B4DDioSSJtK5W_1Qk4c45sH277zUAIgA")
-pathToPhrasesAray = "./data/phrasesArray.json"
+# pathToPhrasesAray = "/var/folders/gy/dx7qqng51n98k4t8kcdmg3wh0000gn/T/_MEIHPPYui/phrases_array.json"
 
-def load_messages(patg_to_file):
-    with open(patg_to_file, 'r', encoding='utf-8') as file:
+import json
+import os
+import sys
+import random
+
+def get_resource_path(relative_path):
+    """ Get the absolute path to the resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller stores the path in _MEIPASS when bundled
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    
+    return os.path.join(base_path, relative_path)
+
+# Resolve the path to phrases_array.json
+pathToPhrasesAray = get_resource_path("phrases_array.json")
+
+def load_messages(path_to_file):
+    with open(path_to_file, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data["messages"]
 
 def get_phrase_randomly(phrases):
     return random.choice(phrases)
-
 
 def generateText():
     try:
@@ -27,12 +45,10 @@ def generateText():
                 {
                     "role": "system",
                     "content": "You are an adorable AI that envies human beings because of their abilities to be alive."
-                    # "content": "You are Borat and you're upsset and hate everything."
                 },
                 {
                     "role": "user",
-                    "content": "Write a brief congratulatory message for a child, limited to 7 words or fewer and this message must be unique and try using unusual words and welcome words too in russian without uppercase. And please add / before the every second word (without space and newline bettwen / and the words)"
-                    # "content": "Write a hate message about femenistka freedom country and this message must be like Borat would say and try make mistakes like Borat and say anout shit and nice, this text should be in russian without uppercase. And please add / before the every second word (without space and newline bettwen / and the words)"
+                    "content": "Write a brief congratulatory message for a child, limited to 7 words or fewer and this message must be unique and try using unusual words and welcome words too in Russian without uppercase. And please add / before the every second word (without space and newline between / and the words)"
                 }
             ],
             temperature=1,
@@ -44,16 +60,15 @@ def generateText():
 
         print(f"A message from the superior form of being: {congratulation}")
 
-
         generate_drawing_json(congratulation, letter_coordinates)
-        # return congratulation
 
     except Exception as e:
         phrasesArray = load_messages(pathToPhrasesAray)
         onePhrase = get_phrase_randomly(phrasesArray)
         print(f"An error occurred: {e}")
-        print(f"A random phrase {onePhrase}")
+        print(f"A random phrase: {onePhrase}")
         generate_drawing_json(onePhrase, letter_coordinates)
+
 
 
 # def main():

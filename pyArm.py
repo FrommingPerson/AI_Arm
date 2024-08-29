@@ -40,6 +40,9 @@ import os
 import platform
 import json
 import argparse
+import webbrowser
+import threading
+import time
 
 from src.pydexarm import Dexarm
 from src.josn_interface import Drawing_processor
@@ -81,6 +84,11 @@ path_data = None
 
 json_drawing_data = None
 
+def open_browser():
+    time.sleep(1)
+    webbrowser.open("http://127.0.0.1:8050/")
+
+
 #######################
 ## Default variables
 #######################
@@ -96,7 +104,7 @@ z_clear_height = -52
 
 pressure_factor = 5
 
-default_JSON_file_Path = "./data/path_data.json"
+default_JSON_file_Path = "path_data.json"
 
 dp = Drawing_processor(base_z = z_val, safe_z_val = z_clear_height, slider = False)
 
@@ -868,15 +876,17 @@ mode_options = {'debug':'d', 'local':'l', 'remote':'r'}
 
 if __name__ == '__main__':
         mode = mode_options[mode_selection]
-        if mode =='d':
+        if mode == 'd':
                 # for test and debug
+                threading.Thread(target=open_browser).start()
                 app.run_server(debug=True)
         
-        elif mode=='l':
-                # to run on lovel device
+        elif mode == 'l':
+                # to run on local device
+                threading.Thread(target=open_browser).start()
                 app.run_server(debug=False)
 
-        elif mode=='r':
+        elif mode == 'r':
                 """
                 To run and access it over network
                 Access it over network on Chrome at:

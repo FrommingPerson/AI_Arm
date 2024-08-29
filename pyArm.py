@@ -1,6 +1,6 @@
 '''
     File name: pyArm.py
-    Author: Ardavan Bidgoli
+    Author: Ardavan Bidgol
     Date created: 04/--/2021
     Date last modified: 08/10/2021
     Python Version: 3.7.7

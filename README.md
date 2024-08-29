@@ -9,7 +9,7 @@ pip install dash plotly dash-bootstrap-components pillow cairosvg numpy pyserial
 ```
 
 ```
-pip install openai
+pip install openai pandas
 ```
 
 ```

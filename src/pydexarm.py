@@ -28,7 +28,7 @@ class Dexarm:
                         parity=serial.PARITY_NONE, 
                         stopbits=serial.STOPBITS_ONE, 
                         bytesize=serial.EIGHTBITS, 
-                        timeout=3000)
+                        timeout=1000)
 
         self.is_open = self.ser.isOpen()
 
@@ -123,7 +123,7 @@ class Dexarm:
                 if serial_str.find("ok") > -1:
                     return module_type
 
-    def move_to(self, x=None, y=None, z=None, e=None, feedrate=9000, mode="G1", wait=True):
+    def move_to(self, x=None, y=None, z=None, e=None, feedrate=4500000, mode="G0", wait=False):
         """
         Move to a cartesian position. This will add a linear move to the queue to be performed after all previous moves are completed.
 
@@ -132,19 +132,23 @@ class Dexarm:
             x, y, z (int): The position, in millimeters by default. Units may be set to inches by G20. Note that the center of y axis is 300mm.
             feedrate (int): set the feedrate for all subsequent moves
         """
-        cmd = mode + "F" + str(feedrate)
+        # print(feedrate)
+
+        cmd = mode + " F" + str(feedrate)
+        # cmd = mode
         if x is not None:
-            cmd = cmd + "X"+str(round(x)) 
+            cmd = cmd + " X"+str(round(x)) 
         if y is not None:
-            cmd = cmd + "Y" + str(round(y))
+            cmd = cmd + " Y" + str(round(y))
         if z is not None:
-            cmd = cmd + "Z" + str(round(z))
+            cmd = cmd + " Z" + str(round(z))
         if e is not None:
-            cmd = cmd + "E" + str(round(e))
+            cmd = cmd + " E" + str(round(e))
         cmd = cmd + "\r\n"
+        print(f"The command from the function move_to is {cmd}")
         self._send_cmd(cmd, wait=wait)
 
-    def fast_move_to(self, x=None, y=None, z=None, feedrate=9000, wait=True):
+    def fast_move_to(self, x=None, y=None, z=None, feedrate=50000, wait=True):
         """
         Fast move to a cartesian position, i.e., in mode G0
 
@@ -152,6 +156,7 @@ class Dexarm:
             x, y, z (int): the position, in millimeters by default. Units may be set to inches by G20. Note that the center of y axis is 300mm.
             feedrate (int): sets the feedrate for all subsequent moves
         """
+        print("fast mode")
         self.move_to(self, x=x, y=y, z=z, feedrate=feedrate, mode="G0", wait=wait)
 
     def rotate_to(self, r= None, wait=True):

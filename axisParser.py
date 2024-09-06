@@ -1,11 +1,9 @@
 import json
-#
+
 def generate_drawing_json(phrase, letter_coordinates, spacing=7, space_adjustment=-6, line_height=-9):
-    # Initial starting positions
     x_start = 0
     y_start = 0  # Start at 0, decrease by line_height for each new line
     
-    # Structure to hold the drawing JSON
     drawing_json = {
         "drawing": {
             "strokes": []
@@ -54,13 +52,12 @@ def generate_drawing_json(phrase, letter_coordinates, spacing=7, space_adjustmen
     # Convert the dictionary to a JSON string
     drawing_json_str = json.dumps(drawing_json, indent=4)
     
-    # Save to a file
     with open("./data/path_data.json", 'w') as f:
         f.write(drawing_json_str)
 
     print("Drawing JSON file has been created successfully.")
 
-# Example usage
+
 letter_coordinates = {
     'к': [
         [

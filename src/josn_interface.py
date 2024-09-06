@@ -99,7 +99,7 @@ class Drawing_processor(object):
       wait_key = True
 
       # just adds a small time delay between each motion
-      wait_val = 0.1
+      wait_val = 0.01
 
       # set the tool as rotary tool
       # arm.set_module_type(6)
@@ -147,7 +147,7 @@ class Drawing_processor(object):
                print ("Getting to the next slider target: {}, {}, {}".format(x, y, z))
                arm.move_to(e= x, y= y, z= z, wait= wait_key)
             else:
-               print ("Getting to the next target: {}, {}, {}".format(x, y, z))
+               print ("Getting to the next target Oui: {}, {}, {}".format(x, y, z))
                arm.move_to(x= x, y= y, z= z, wait= wait_key)
 
             arm.dealy_s(wait_val)
@@ -352,8 +352,55 @@ class Robot_arm(object):
       print ("-----------------------------------------------------")
       print ("\n")
    
-   def move_to(self,  x_loc, y_loc, p_val):
-      print (("M \t{}\t{}\t{}").format(x_loc, y_loc, p_val))
+   # def move_to(self,  x_loc, y_loc, p_val):
+   #    print (("M \t{}\t{}\t{}").format(x_loc, y_loc, p_val))
+
+
+   def _send_cmd(self, data, wait=True):
+        """
+        Send command to the arm.
+
+        Args:
+            data (string): the command
+            wait (bool): wait for response from the arm (ok) or not.
+                If True, this function will block until the arm response "ok"
+                If False, this function will not block here. But the command could be ignored if buffer of the arm is full.
+        """
+        self.ser.write(data.encode())
+        if not wait:
+            self.ser.reset_input_buffer()
+            return
+        while True:
+            serial_str = self.ser.readline().decode("utf-8")
+            if len(serial_str) > 0:
+                if serial_str.find("ok") > -1:
+                    print("read ok")
+                    break
+                else:
+                    print("read：", serial_str)
+
+
+   def move_to(self, x=None, y=None, z=None, e=None, feedrate=50000, mode="G0", wait=True):
+        """
+        Move to a cartesian position. This will add a linear move to the queue to be performed after all previous moves are completed.
+
+        Args:
+            mode (string, G0 or G1): G1 by default. use G0 for fast mode
+            x, y, z (int): The position, in millimeters by default. Units may be set to inches by G20. Note that the center of y axis is 300mm.
+            feedrate (int): set the feedrate for all subsequent moves
+        """
+        cmd = mode + "F" + str(feedrate)
+        if x is not None:
+            cmd = cmd + "X"+str(round(x)) 
+        if y is not None:
+            cmd = cmd + "Y" + str(round(y))
+        if z is not None:
+            cmd = cmd + "Z" + str(round(z))
+        if e is not None:
+            cmd = cmd + "E" + str(round(e))
+        cmd = cmd + "\r\n"
+      #   print(f"The command from the function move_to is {cmd}")
+        self._send_cmd(cmd, wait=wait)
 
    def rotate_to(self, r):
       print ("R \t{}".format(r))

@@ -178,8 +178,8 @@ center_y = 3500 // 2  # Center Y at 1750
 size = 50 * 10  # Adjust the size based on the scale factor
 
 # Insert a square as an SVG layer centered at (2000, 1750) with scaled size
-fig = insert_square_as_layer(
-    fig, center_x=center_x, center_y=center_y, size=size)
+# fig = insert_square_as_layer(
+#     fig, center_x=center_x, center_y=center_y, size=size)
 
 
 ##########################################################################################

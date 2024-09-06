@@ -20,7 +20,7 @@ def get_phrase_randomly(phrases):
     return random.choice(phrases)
 
 
-def request_openai(system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief congratulatory message for a child, limited to 7 words or fewer and this message must be unique, try using common words and welcome words too in russian without uppercase. And please add / before the every second word (without space and newline bettwen / and the words)"):
+def request_openai(system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief congratulatory message for a child, limited to 7 words or fewer and this message must be unique, try using welcome words, in russian without uppercase. And please you should add / before the every second word (without space and newline bettwen / and the words)"):
     generationPrompt = {
         "system_content": system_content,
         "user_content": user_content

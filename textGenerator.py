@@ -26,7 +26,7 @@ def request_openai(system_content = "You are an adorable AI that envies human be
         "user_content": user_content
     }
     try:
-        generatedText = requests.post("https://openai.themostsite.site/", json=generationPrompt)
+        generatedText = requests.post("https://openai.themostsite.site/", json=generationPrompt, timeout=3)
 
         if generatedText.status_code == 200:
             generatedText = generatedText.json().get("generated_text", "No generated text found.")

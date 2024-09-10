@@ -5,7 +5,7 @@ sys.setrecursionlimit(sys.getrecursionlimit() * 5)
 
 a = Analysis(
     ['pyArm.py'],
-    pathex=['.'],
+    pathex=['.'], 
     binaries=[],
     datas=[('assets/logo.png', 'assets'), ('phrases_array.json', '.')],
     hiddenimports=[],
@@ -31,7 +31,7 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,
+    console=True,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

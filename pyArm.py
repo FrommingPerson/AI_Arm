@@ -48,7 +48,7 @@ from src.pydexarm import Dexarm
 from src.josn_interface import Drawing_processor
 from axisParser import generate_drawing_json as generate_drawing_json
 from axisParser import letter_coordinates as letter_coordinates
-from textGenerator import generateText as generateText 
+from textGenerator import request_openai as request_openai
 
 
 ######################################################################
@@ -747,7 +747,7 @@ def draw_now(value_graph, value_JSON, text_input_value):
             print("HumanWritten text")
 
         else:
-            generateText()
+            request_openai(add_line=add_new_line)
             
 
     global arm, dp

@@ -93,7 +93,4 @@ def request_openai(add_line, system_content = "You are an adorable AI that envie
         phraseArray = load_messages(pathToPhrasesAray)
         onePhrase = get_phrase_randomly(phraseArray)
         print(f"A random phrase {onePhrase}")
-        phraseArray = load_messages(pathToPhrasesAray)
-        onePhrase = get_phrase_randomly(phraseArray)
-        print(f"A random phrase {onePhrase}")
         generate_drawing_json(onePhrase, letter_coordinates)

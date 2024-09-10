@@ -32,6 +32,7 @@ def load_messages(path_to_file):
         data = json.load(file)
     return data["messages"]
 
+
 def get_phrase_randomly(phrases):
     return random.choice(phrases)
 
@@ -89,6 +90,9 @@ def request_openai(add_line, system_content = "You are an adorable AI that envie
         
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
+        phraseArray = load_messages(pathToPhrasesAray)
+        onePhrase = get_phrase_randomly(phraseArray)
+        print(f"A random phrase {onePhrase}")
         phraseArray = load_messages(pathToPhrasesAray)
         onePhrase = get_phrase_randomly(phraseArray)
         print(f"A random phrase {onePhrase}")

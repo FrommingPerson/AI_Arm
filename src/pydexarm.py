@@ -123,7 +123,7 @@ class Dexarm:
                 if serial_str.find("ok") > -1:
                     return module_type
 
-    def move_to(self, x=None, y=None, z=None, e=None, feedrate=9000, mode="G1", wait=True):
+    def move_to(self, x=None, y=None, z=None, e=None, feedrate=4500000, mode="G0", wait=False):
         """
         Move to a cartesian position. This will add a linear move to the queue to be performed after all previous moves are completed.
 
@@ -132,16 +132,20 @@ class Dexarm:
             x, y, z (int): The position, in millimeters by default. Units may be set to inches by G20. Note that the center of y axis is 300mm.
             feedrate (int): set the feedrate for all subsequent moves
         """
-        cmd = mode + "F" + str(feedrate)
+        # print(feedrate)
+
+        cmd = mode + " F" + str(feedrate)
+        # cmd = mode
         if x is not None:
-            cmd = cmd + "X"+str(round(x)) 
+            cmd = cmd + " X"+str(round(x)) 
         if y is not None:
-            cmd = cmd + "Y" + str(round(y))
+            cmd = cmd + " Y" + str(round(y))
         if z is not None:
-            cmd = cmd + "Z" + str(round(z))
+            cmd = cmd + " Z" + str(round(z))
         if e is not None:
-            cmd = cmd + "E" + str(round(e))
+            cmd = cmd + " E" + str(round(e))
         cmd = cmd + "\r\n"
+        print(f"The command from the function move_to is {cmd}")
         self._send_cmd(cmd, wait=wait)
 
     def fast_move_to(self, x=None, y=None, z=None, feedrate=18000, wait=True):

@@ -9,14 +9,22 @@ pip install dash plotly dash-bootstrap-components pillow cairosvg numpy pyserial
 ```
 
 ```
-pip install openai pandas
+pip install openai pandas pyinstaller py2app
 ```
 
 ```
 pip install "dash-bootstrap-components<1"
 ```
 
+And the command for buiding the app and creating a new config file
+```
+pyinstaller --onefile --windowed pyArm.py
+```
 
+After the initial built you can use another command without creation a spec file
+```
+pyinstaller pyArm.spec
+```
 
 ![demo](/media/demo.gif?raw=true)
 

@@ -706,14 +706,14 @@ def adjust_marker(value):
                 arm.move_to(e= x_default, y= y_default, z= z_val_adjusted)
             else:
                 arm.move_to(x_default, y_default, z_val_adjusted)
-            return "Adjust the marker", "Return Home"
+            return "Adjust the marker", "Вернуться на исходную позицию"
         else:
             # on even clicks the robot comes back to normal height
             if dp.slider:
                 arm.move_to(e= x_default, y= y_default, z= z_clear_height)
             else:
                 arm.move_to(x_default, y_default, z_clear_height)
-            return "", "Touch Paper"
+            return "", "Докоснуться до бумаги"
     else:
         return "Робо-рука не подключена", dash.no_update
 

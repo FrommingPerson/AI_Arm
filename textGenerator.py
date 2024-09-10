@@ -20,7 +20,7 @@ def get_phrase_randomly(phrases):
     return random.choice(phrases)
 
 
-def request_openai(system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief congratulatory message for a child, limited to 7 words or fewer and this message must be unique, try using welcome words, in russian without uppercase. And please you should add / before the every second word (without space and newline bettwen / and the words)"):
+def request_openai(system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief fortune-telling for a child, limited to 7 words or fewer and this message must be unique, try using welcome words, ONLY IN RUSSIAN without uppercase. And please you should add / before the every second word (without space and newline bettwen / and the words)"):
     generationPrompt = {
         "system_content": system_content,
         "user_content": user_content
@@ -32,6 +32,8 @@ def request_openai(system_content = "You are an adorable AI that envies human be
             generatedText = generatedText.json().get("generated_text", "No generated text found.")
             print(f"A message from the superior form of being: {generatedText}")
             generate_drawing_json(generatedText, letter_coordinates) 
+            with open('samples.txt', 'a') as file:
+                file.write(generatedText + '\n')
         
         else: 
             return f"There is a problem with connection, error code {generatedText.status_code} and the data of the request is {generatedText.text}"

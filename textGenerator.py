@@ -6,7 +6,7 @@ import keyboard
 import requests
 from axisParser import generate_drawing_json, letter_coordinates
 
-client = OpenAI(api_key = "sk-svcacct-hX8lgGr6VTtt9puTz8A4198rGAA0pxfLkmcDsZPnCZM-T3BlbkFJUorG3ETpsFf2B4DDioSSJtK5W_1Qk4c45sH277zUAIgA")
+
 pathToPhrasesAray = "./data/phrasesArray.json"
 
 
@@ -26,7 +26,7 @@ def request_openai(system_content = "You are an adorable AI that envies human be
         "user_content": user_content
     }
     try:
-        generatedText = requests.post("https://openai.themostsite.site/", json=generationPrompt, timeout=3)
+        generatedText = requests.post("https://openai.themostsite.site/", json=generationPrompt)
 
         if generatedText.status_code == 200:
             generatedText = generatedText.json().get("generated_text", "No generated text found.")
@@ -47,12 +47,12 @@ def request_openai(system_content = "You are an adorable AI that envies human be
 def main():
     print("Press 'Enter' to trigger an event. Press 'Esc' to exit.")
     while True:
-        if keyboard.is_pressed("enter"):
-            request_openai()
-
-        if keyboard.is_pressed("esc"):
+        key = input("Press a key: ").lower()  
+        if key == "":
+            request_openai()  
+        elif key == "esc":
             print("Esc key is pressed!")
-            sys.exit(0)
+            sys.exit(0)  
 
 
 if __name__ == "__main__":

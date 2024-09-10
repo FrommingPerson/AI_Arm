@@ -20,7 +20,7 @@ def get_phrase_randomly(phrases):
     return random.choice(phrases)
 
 
-def request_openai(system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief fortune-telling for a child, limited to 7 words or fewer and this message must be unique, try using welcome words, ONLY IN RUSSIAN without uppercase. And please you should add / before the every second word (without space and newline bettwen / and the words)"):
+def request_openai(add_line, system_content = "You are an adorable AI that envies human beings because of their abilities to be alive.", user_content = "Write a brief fortune-telling for a human being, limited to 7 words or fewer and this message must be unique, try using welcome words, ONLY IN RUSSIAN without uppercase."):
     generationPrompt = {
         "system_content": system_content,
         "user_content": user_content
@@ -30,6 +30,7 @@ def request_openai(system_content = "You are an adorable AI that envies human be
 
         if generatedText.status_code == 200:
             generatedText = generatedText.json().get("generated_text", "No generated text found.")
+            generatedText = add_line(generatedText)
             print(f"A message from the superior form of being: {generatedText}")
             generate_drawing_json(generatedText, letter_coordinates) 
             with open('samples.txt', 'a') as file:
@@ -46,16 +47,16 @@ def request_openai(system_content = "You are an adorable AI that envies human be
         generate_drawing_json(onePhrase, letter_coordinates)
         
 
-def main():
-    print("Press 'Enter' to trigger an event. Press 'Esc' to exit.")
-    while True:
-        key = input("Press a key: ").lower()  
-        if key == "":
-            request_openai()  
-        elif key == "esc":
-            print("Esc key is pressed!")
-            sys.exit(0)  
+# def main():
+#     print("Press 'Enter' to trigger an event. Press 'Esc' to exit.")
+#     while True:
+#         key = input("Press a key: ").lower()  
+#         if key == "":
+#             request_openai()  
+#         elif key == "esc":
+#             print("Esc key is pressed!")
+#             sys.exit(0)  
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

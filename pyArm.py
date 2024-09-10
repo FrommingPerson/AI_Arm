@@ -780,7 +780,7 @@ def draw_now(value_graph, value_JSON, text_input_value):
             print("HumanWritten text")
 
         else:
-            request_openai()
+            request_openai(add_line=add_new_line)
 
     global arm, dp
     global default_JSON_file_Path

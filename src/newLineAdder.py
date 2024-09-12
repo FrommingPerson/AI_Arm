@@ -66,5 +66,4 @@ while True:
     if current_hash != initial_hash:
         initial_hash = current_hash
         activate_replacement()
-    time.sleep(10)  
-
+    time.sleep(15)  

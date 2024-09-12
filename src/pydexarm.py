@@ -72,7 +72,7 @@ class Dexarm:
         """
         self._send_cmd("G92 X0 Y0 Z0 E0\r")
 
-    def set_acceleration(self, acceleration, travel_acceleration, retract_acceleration=60):
+    def set_acceleration(self, acceleration=2000, travel_acceleration=2000, retract_acceleration=100):
         """
         Set the preferred starting acceleration for moves of different types.
 
@@ -123,7 +123,7 @@ class Dexarm:
                 if serial_str.find("ok") > -1:
                     return module_type
 
-    def move_to(self, x=None, y=None, z=None, e=None, feedrate=4500000, mode="G0", wait=False):
+    def move_to(self, x=None, y=None, z=None, e=None, feedrate=6500000, mode="G0", wait=False):
         """
         Move to a cartesian position. This will add a linear move to the queue to be performed after all previous moves are completed.
 

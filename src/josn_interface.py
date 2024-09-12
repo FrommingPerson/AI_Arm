@@ -99,7 +99,7 @@ class Drawing_processor(object):
       wait_key = True
 
       # just adds a small time delay between each motion
-      wait_val = 0.01
+      wait_val = 0.001
 
       # set the tool as rotary tool
       # arm.set_module_type(6)

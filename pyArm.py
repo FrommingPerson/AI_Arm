@@ -457,16 +457,6 @@ def toggle_text_input(value):
         return {'display': 'none'}  # Hide the input field
 
 
-# @app.callback(
-#     Output('lowercase_store', 'data'),
-#     Input('text_input', 'value')
-# )
-# def convert_to_lowercase(input_text):
-#     if input_text:
-#         lowercase_text = input_text.lower()
-#         return lowercase_text
-#     return ''  # Return empty string if input is empty
-
 @app.callback(
     Output('stop_status', 'children'),
     Input('stop', 'n_clicks'),

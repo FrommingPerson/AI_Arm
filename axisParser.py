@@ -3104,6 +3104,4 @@ letter_coordinates = {
     ]
 }
 
-# Call the function with the phrase
-# generate_drawing_json("привет\nмаксим", letter_coordinates)
 print("The axisParser is running")

@@ -92,7 +92,7 @@ def open_browser():
 #######################
 ## Default variables
 #######################
-z_val = -58
+z_val = -64
 z_val_adjusted = z_val + 0
 
 scale = 25
@@ -100,7 +100,7 @@ x_offset = 0
 y_offset = 250
 x_default = 0
 y_default = 300
-z_clear_height = -52
+z_clear_height = -61
 
 pressure_factor = 5
 

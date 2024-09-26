@@ -1,16 +1,7 @@
 import json
-import hashlib
-import time
 
 isReplaced:bool = True
 file_path = "./data/phrasesArray.json"
-
-def hash_file(file_path):
-    hasher = hashlib.md5()
-    with open(file_path, 'rb') as f:
-        buf = f.read()
-        hasher.update(buf)
-    return hasher.hexdigest()
 
 def load_json(file_path):
     try:
@@ -19,8 +10,15 @@ def load_json(file_path):
         return data
     except FileNotFoundError:
         print("The file phrasesArray.json is not found")
-        
-
+  
+         
+def modify_messages(data):
+    for idx, message in enumerate(data["messages"]):
+        modified_message = replace_second_space_with_slash(message)
+        data["messages"][idx] = modified_message
+    return data
+ 
+ 
 def replace_second_space_with_slash(message:str):
     global isReplaced
     space_count = 0
@@ -39,13 +37,6 @@ def replace_second_space_with_slash(message:str):
         return ''.join(new_message)
 
 
-def modify_messages(data):
-    for idx, message in enumerate(data["messages"]):
-        modified_message = replace_second_space_with_slash(message)
-        data["messages"][idx] = modified_message
-    return data
-
-
 def save_json(file_path, data):
     global isReplaced
     with open(file_path, 'w', encoding='utf-8') as file:
@@ -59,11 +50,4 @@ def activate_replacement(file_path = './data/phrasesArray.json'):
     modified_data = modify_messages(data)
     save_json(file_path, modified_data)
 
-initial_hash = hash_file(file_path)
-
-while True:
-    current_hash = hash_file(file_path)
-    if current_hash != initial_hash:
-        initial_hash = current_hash
-        activate_replacement()
-    time.sleep(15)  
+activate_replacement()

@@ -1,14 +1,10 @@
-from openai import OpenAI
 import random
 import json
-import sys
-import keyboard
 import requests
 from axisParser import generate_drawing_json, letter_coordinates
 
 
 pathToPhrasesAray = "./data/phrasesArray.json"
-
 
 def load_messages(path_to_file):
     with open(path_to_file, 'r', encoding='utf-8') as file:
@@ -46,17 +42,3 @@ def request_openai(add_line, system_content = "You are an adorable AI that envie
         print(f"A random phrase {onePhrase}")
         generate_drawing_json(onePhrase, letter_coordinates)
         
-
-# def main():
-#     print("Press 'Enter' to trigger an event. Press 'Esc' to exit.")
-#     while True:
-#         key = input("Press a key: ").lower()  
-#         if key == "":
-#             request_openai()  
-#         elif key == "esc":
-#             print("Esc key is pressed!")
-#             sys.exit(0)  
-
-
-# if __name__ == "__main__":
-#     main()

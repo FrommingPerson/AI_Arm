@@ -1,42 +1,20 @@
-'''
-    File name: pyArm.py
-    Author: Ardavan Bidgoli
-    Date created: 04/--/2021
-    Date last modified: 08/10/2021
-    Python Version: 3.7.7
-    License: MIT
-'''
+
 ##########################################################################################
 # Import
 ##########################################################################################
 import dash
-# import dash_core_components as dcc
 from dash import dcc
 from dash import html
-# import dash_html_components as html
 import plotly.express as px
-# from dash_html_components.P import P
 from dash.dependencies import Input, Output, State
-# import plotly.graph_objs as go
 import dash_bootstrap_components as dbc
 from dash_bootstrap_components._components.CardBody import CardBody
-
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
 import plotly.express as px
-# import cairosvg
-from io import BytesIO
-
-
 import numpy as np
 from numpy.core.fromnumeric import size
-
-import serial
-
 import re
 import base64
-import io
-import os
 import platform
 import json
 import argparse
@@ -60,24 +38,21 @@ parser.add_argument('-mode',
 
 args = parser.parse_args()
 mode_selection = args.mode
-isTrue = False  # Initialize the boolean variable
 
 ##########################################################################################
 # Global Variables
 ##########################################################################################
+isTrue = False  # Initialize the boolean variable
 port = "COM5"
+mac_port = "/dev/tty.usbmodem3068365D30311"
 
 print(platform.uname().system)
-
-mac_port = "/dev/tty.usbmodem3068365D30311"
 
 if platform.uname().system == "Darwin":
     port = mac_port
 
 arm = None
-
 path_data = None
-
 json_drawing_data = None
 
 #######################
@@ -109,7 +84,6 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # Initial GUI setup
 ##########################################################################################
 
-
 def init_canvas():
     """
     Making the initial canvas
@@ -129,8 +103,7 @@ def init_canvas():
 config = {"modeBarButtonsToAdd": [
     "drawopenpath",
     "eraseshape",
-]}
-
+]}  
 
 def insert_square_as_layer(fig, center_x, center_y, size):
     """
@@ -164,7 +137,6 @@ def insert_square_as_layer(fig, center_x, center_y, size):
             layer="above"
         )
     )
-
     return fig
 
 
@@ -177,10 +149,8 @@ center_x = 4000 // 2  # Center X at 2000
 center_y = 3500 // 2  # Center Y at 1750
 size = 50 * 10  # Adjust the size based on the scale factor
 
-# Insert a square as an SVG layer centered at (2000, 1750) with scaled size
 # fig = insert_square_as_layer(
 #     fig, center_x=center_x, center_y=center_y, size=size)
-
 
 ##########################################################################################
 # Cards
@@ -754,30 +724,22 @@ def draw_now(value_graph, value_JSON, text_input_value):
     """
     Reads the saved JSON file in the default path and draws it
     """
-    # global isTrue
-    # ctx = dash.callback_context
-    global path_data
+    global path_data, arm, dp, default_JSON_file_Path
+
     lowercased_text = text_input_value.lower() if text_input_value else ""
     print("S'IL VOUS PLAÎTE !!!!")
 
-    # if draw != "Информация сохранена в json файл":
     if path_data == None:
         print(lowercased_text)
-
         if isTrue:
             generate_drawing_json(add_new_line(
                 lowercased_text), letter_coordinates)
             print("HumanWritten text")
-
         else:
             request_openai(add_line=add_new_line)
 
-    global arm, dp
-    global default_JSON_file_Path
-
     polyLines = dp.extract_ploylines(default_JSON_file_Path)
     dp.draw(arm, polyLines)
-
     return ("Drawing copmleted")
 
 
@@ -791,7 +753,6 @@ def add_new_line(lowercasedText):
                 newMessage.append("/")
                 continue
         newMessage.append(char)
-
     return ''.join(newMessage)
 
 
@@ -886,11 +847,6 @@ def draw(relayout_data):
         return "Холст пуст"
 
 
-# if __name__ == "__main__":
-#     app.run_server(debug=True)
-    # app.run_server(debug=False)
-    # app.run_server(debug= False , port=8080, host='0.0.0.0')
-
 ######################################################################
 # Dash App Running!
 ######################################################################
@@ -899,7 +855,6 @@ mode_options = {'debug': 'd', 'local': 'l', 'remote': 'r'}
 if __name__ == '__main__':
     mode = mode_options[mode_selection]
     if mode == 'd':
-        # for test and debug
         app.run_server(debug=True)
 
     elif mode == 'l':
@@ -914,3 +869,4 @@ if __name__ == '__main__':
         i.e.: 192.168.86.34:8080
         """
         app.run_server(debug=False, port=8050, host='0.0.0.0')
+      

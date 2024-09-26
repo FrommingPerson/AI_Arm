@@ -36,7 +36,7 @@ def generate_drawing_json(phrase, letter_coordinates, spacing=7, space_adjustmen
             for point in stroke:
                 adjusted_point = {
                     "x": (((point["x"]-70) * 0.25)+ 70) + 30 + x_start,  # Adjust x by the current x_start value
-                    "y": (((point["y"]-300) * 0.25)+ 300) - 40 + y_start,  # Adjust y by the current y_start value
+                    "y": (((point["y"]-300) * 0.25)+ 300) - 70 + y_start,  # Adjust y by the current y_start value
                     "a": point.get("a", 5),  # Assuming default 0 if 'a' not present
                     "p": point.get("p", -30.0)  # Assuming default 0.0 if 'p' not present
                 }
